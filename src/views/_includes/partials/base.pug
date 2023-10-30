@@ -1,0 +1,13 @@
+block variables
+
+doctype html
+html(lang="en")
+  include ./head
+
+  body
+    include ./navigation
+
+    .content#content(data-template=template)
+      block content
+
+  script(type="module" src="/src/app/index.js")

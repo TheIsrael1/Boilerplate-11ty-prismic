@@ -1,0 +1,29 @@
+{
+  "name": "boilerpoint",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "author": "Nicolas Giannantonio",
+  "description": "A boilerplate for Eleventy, Prismic, and Vite. Nicolas Giannantonio",
+  "scripts": {
+    "clean": "rm -rf _site",
+    "dev": "npm run clean && eleventy --config=.eleventy.cjs --serve --incremental",
+    "build": "npm run clean && eleventy --config=.eleventy.cjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-navigation": "^0.3.5",
+    "@11ty/eleventy-plugin-vite": "^4.0.0",
+    "@11ty/eleventy-server-browsersync": "^1.0.2",
+    "@prismicio/client": "^7.3.1",
+    "@prismicio/helpers": "^2.3.9",
+    "auto-bind": "^5.0.1",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "html-minifier": "^4.0.0",
+    "lodash": "^4.17.21",
+    "pug": "^3.0.2",
+    "sass": "^1.69.5",
+    "vite": "^4.4.0"
+  }
+}
