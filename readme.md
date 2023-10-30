@@ -35,7 +35,7 @@ src/
 .env
 ```env
 PRISMIC_REPOSITORY=
-PRISMIC_ACCESS_TOKEN
+PRISMIC_ACCESS_TOKEN=
 ```
 <br></br>
 - Exemple de récupération de données de prismic
