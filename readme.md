@@ -1,9 +1,5 @@
-# BoilerPoint (vite + 11ty + pug + prismic)
-
 ---
-
----
-# Prismic
+# Prismic Configuration
 
 .env
 ```env
