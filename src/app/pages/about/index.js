@@ -1,31 +1,34 @@
 import Page from '../../classes/Page.js'
 import {gsap} from "gsap";
 
-export default class Home extends Page {
+export default class About extends Page {
   constructor() {
     super({
-      id: 'home',
-      element: '.home',
+      id: 'about',
+      element: '.about',
       elements: {
-        wrapper: '.home__wrapper',
+        wrapper: '.about__wrapper',
         navigation: document.querySelector('.navigation'),
       },
       meta: {
-        title: "Home",
+        title: "About",
       }
     })
   }
 
   create() {
     super.create();
+
+    // INIT
+    this.initAnimation()
     this.addEventListeners()
   }
 
-  addEventListeners() {
+  initAnimation() {
 
   }
 
-  removeEventListeners() {
+  addEventListeners() {
 
   }
 

@@ -1,4 +1,6 @@
 import each from "lodash/each";
+import {split} from "../utils/text.js";
+import {map} from "lodash/collection.js";
 
 /**
  * Page commune à toutes les pages
@@ -10,11 +12,15 @@ import each from "lodash/each";
  */
 
 export default class Page {
-  constructor({element, elements, id}) {
+  constructor({element, elements, id, meta}) {
     this.selector = element;
-    this.selectorChildrens = {...elements}; // Récupération des éléments de référence de la page
+    this.selectorChildrens = {
+      ...elements,
+    };
     this.id = id;
+    this.meta = meta
   }
+
 
   create() {
     /**
@@ -25,27 +31,32 @@ export default class Page {
      * Si un seul élément est trouvé, on définit directement l'élément
      */
 
+    document.title = this.meta.title;
+
+
     this.element = document.querySelector(this.selector);
     this.elements = {}
 
+
     each(this.selectorChildrens, (entry, key) => {
-      if (entry instanceof window.HTMLElement || entry instanceof window.NodeList || Array.isArray(entry))
-      {
+      if (entry instanceof window.HTMLElement || entry instanceof window.NodeList || Array.isArray(entry)) {
         this.elements[key] = entry;
-      }
-      else {
+      } else {
         this.elements[key] = document.querySelectorAll(entry);
 
-        if (this.elements[key].length === 0)
-        {
+        if (this.elements[key].length === 0) {
           this.elements[key] = null
-          console.error("ERROR CREATE BY NICO - Element not found", this.elements[key], entry)
-        }
-        else if (this.elements[key].length === 1)
-        {
+          console.log("!!! Element not found", entry)
+        } else if (this.elements[key].length === 1) {
           this.elements[key] = document.querySelector(entry);
         }
       }
     })
+
+    this.createAnimation()
+  }
+
+  createAnimation() {
+
   }
 }

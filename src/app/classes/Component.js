@@ -1,6 +1,5 @@
 import AutoBind from "auto-bind";
 import each from "lodash/each";
-import EventEmitter from "events";
 
 export default class Component {
 

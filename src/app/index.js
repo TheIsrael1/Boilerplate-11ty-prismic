@@ -5,6 +5,10 @@ import '@styles/index.scss';
 import Home from "./pages/home/index.js";
 import Navigation from "./components/Navigation.js";
 import each from "lodash/each";
+import About from "./pages/about/index.js";
+
+// LIB
+import {gsap} from "gsap";
 
 
 class App {
@@ -13,6 +17,10 @@ class App {
     this.createContent();
     this.createPages();
     this.createNavigation();
+    this.addLinkListeners();
+
+    this.tl = gsap.timeline();
+    this.isChanging = false;
   }
 
   /**
@@ -33,8 +41,11 @@ class App {
     this.pages = {
       // e.g. home: new Home()
       home: new Home(),
+      about: new About(),
     }
     this.page = this.pages[this.template]
+
+    this.page.create();
   }
 
 
@@ -43,6 +54,7 @@ class App {
    * @returns {void}
    */
   createNavigation() {
+
     this.navigation = new Navigation({
       template: this.template,
     });
@@ -51,37 +63,75 @@ class App {
 
   /**
    * Changement de page
-   * @param url {string}
-   * @param push {boolean} - true si on veut ajouter l'url dans l'historique
-   * @return {Promise<void>}
    */
-  async onChange({ url, push = true }) {
-    url = url.replace(window.location.origin, '');
+  async onChange({url, push = true}) {
 
-    const page = this.pages[url];
+    if (this.isChanging) return;
+    this.isChanging = true;
 
-    // await this.transition.show({
-    //   color: page.element.getAttribute('data-color'),
-    // });
+    const urlObject = new URL(url);
+    if (window.location.pathname === urlObject.pathname) {
+      this.isChanging = false;
+      return
+    };
 
-    if (push) {
-      window.history.pushState({}, '', url);
+
+    const req = await fetch(url)
+
+    if (req.status === 200) {
+
+      // await this.page.hide()
+
+      await this.pageTransitionIn();
+
+      const html = await req.text();
+      const div = document.createElement('div');
+      div.innerHTML = html;
+
+      const divContent = div.querySelector('.content');
+      this.template = divContent.getAttribute('data-template');
+
+      this.navigation.onChange(this.template);
+
+      this.content.setAttribute('data-template', this.template);
+      this.content.innerHTML = divContent.innerHTML;
+
+      this.page = this.pages[this.template];
+      this.page.create();
+
+
+      if (push) {
+        window.history.pushState(null, null, url);
+      }
+
+      await this.pageTransitionOut();
+
+      this.addLinkListeners();
+      this.isChanging = false;
     }
-
-    this.template = window.location.pathname;
-
-
-    this.navigation.onChange(this.template);
-
-    this.page = page;
-    this.page.show();
-
+    else {
+      console.log('error')
+      this.isChanging = false;
+    }
   }
 
   addEventListeners() {
 
   }
 
+  async pageTransitionIn() {
+    return new Promise((resolve) => {
+      // Transition de page Ici
+      resolve();
+    });
+  }
+
+  async pageTransitionOut() {
+    return new Promise((resolve) => {
+      // Transition de page ici
+      resolve()
+    });
+  }
 
 
   /**
@@ -116,7 +166,6 @@ class App {
       }
     });
   }
-
 }
 
 new App();

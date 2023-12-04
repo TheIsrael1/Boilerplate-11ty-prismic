@@ -1,4 +1,6 @@
 import Component from "../classes/Component.js";
+import {gsap} from "gsap";
+import each from "lodash/each";
 
 /**
  * Navigation
@@ -13,14 +15,23 @@ export default class Navigation extends Component {
     super({
       element: '.navigation',
       elements: {
-        links: ".links"
+        links: ".links",
+        test: ".test"
       }
     });
     this.template = template;
   }
 
-  onChange(template) {
+  create() {
+    super.create();
+    this.addEventListeners();
+  }
+
+  addEventListeners() {
 
   }
 
+  onChange(template) {
+
+  }
 }
